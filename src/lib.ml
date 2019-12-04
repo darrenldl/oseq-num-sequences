@@ -18,6 +18,14 @@ module type S = sig
   val nat : t Seq.t
 
   val range_exc : ?incre:t -> t -> t -> t Seq.t
+
+  val range_inc : ?incre:t -> t -> t -> t Seq.t
+
+  val zero_to_n_exc : t -> t Seq.t
+
+  val zero_to_n_inc : t -> t Seq.t
+
+  val modulo : t -> t Seq.t
 end
 
 module Make (B : B) : S = struct
@@ -38,7 +46,8 @@ module Make (B : B) : S = struct
       OSeq.cons start (range_exc (B.add start incre) end_exc)
     else OSeq.empty
 
-  let range_inc start end_inc = range_exc start (succ end_inc)
+  let range_inc ?(incre = one) start end_inc =
+    range_exc ~incre start (succ end_inc)
 
   let zero_to_n_exc n = range_exc zero n
 
@@ -47,10 +56,12 @@ module Make (B : B) : S = struct
   let modulo n = OSeq.cycle (zero_to_n_exc n)
 end
 
-module Int = Make (struct include Int let of_int x = x end)
+module Int = Make (struct
+    include Int
 
-module Int32 = Make(Int32)
+    let of_int x = x
+  end)
 
-module Int64 = Make(Int64)
-
-module Float = Make(Float)
+module Int32 = Make (Int32)
+module Int64 = Make (Int64)
+module Float = Make (Float)
