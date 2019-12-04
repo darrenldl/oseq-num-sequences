@@ -1,0 +1,5 @@
+(library
+ (name lib)
+ (public_name oseq_num_sequences)
+ (libraries oseq)
+ )
