@@ -64,4 +64,3 @@ module Int = Make (struct
 
 module Int32 = Make (Int32)
 module Int64 = Make (Int64)
-module Float = Make (Float)
