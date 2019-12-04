@@ -3,6 +3,10 @@ module type B = sig
 
   val of_int : int -> t
 
+  val succ : t -> t
+
+  val pred : t -> t
+
   val add : t -> t -> t
 
   val sub : t -> t -> t
@@ -35,11 +39,7 @@ module Make (B : B) : S = struct
 
   let one = B.of_int 1
 
-  let pred x = B.(sub x one)
-
-  let succ x = B.(add x one)
-
-  let nat = OSeq.iterate zero succ
+  let nat = OSeq.iterate zero B.succ
 
   let rec range_exc ?(incre = one) start end_exc =
     if start < end_exc then
@@ -47,7 +47,7 @@ module Make (B : B) : S = struct
     else OSeq.empty
 
   let range_inc ?(incre = one) start end_inc =
-    range_exc ~incre start (succ end_inc)
+    range_exc ~incre start (B.succ end_inc)
 
   let zero_to_n_exc n = range_exc zero n
 
