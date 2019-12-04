@@ -16,7 +16,7 @@ module type B = sig
   val div : t -> t -> t
 end
 
-module type S = sig
+module type Integral = sig
   type t
 
   val nat : t Seq.t
@@ -32,7 +32,7 @@ module type S = sig
   val modulo : t -> t Seq.t
 end
 
-module Make (B : B) : S = struct
+module Make_integral (B : B) : Integral = struct
   type t = B.t
 
   let zero = B.of_int 0
@@ -56,11 +56,11 @@ module Make (B : B) : S = struct
   let modulo n = OSeq.cycle (zero_to_n_exc n)
 end
 
-module Int = Make (struct
+module Int = Make_integral (struct
     include Int
 
     let of_int x = x
   end)
 
-module Int32 = Make (Int32)
-module Int64 = Make (Int64)
+module Int32 = Make_integral (Int32)
+module Int64 = Make_integral (Int64)
