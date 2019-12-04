@@ -46,3 +46,11 @@ module Make (B : B) : S = struct
 
   let modulo n = OSeq.cycle (zero_to_n_exc n)
 end
+
+module Int = Make (struct include Int let of_int x = x end)
+
+module Int32 = Make(Int32)
+
+module Int64 = Make(Int64)
+
+module Float = Make(Float)
