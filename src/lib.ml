@@ -31,14 +31,12 @@ module Make (B : B) : S = struct
 
   let succ x = B.(add x one)
 
-  let nat =
-    OSeq.iterate zero succ
+  let nat = OSeq.iterate zero succ
 
   let rec range_exc ?(incre = one) start end_exc =
     if start < end_exc then
       OSeq.cons start (range_exc (B.add start incre) end_exc)
-    else
-      OSeq.empty
+    else OSeq.empty
 
   let range_inc start end_inc = range_exc start (succ end_inc)
 
@@ -46,6 +44,5 @@ module Make (B : B) : S = struct
 
   let zero_to_n_inc n = range_inc zero n
 
-  let modulo n =
-    OSeq.cycle (zero_to_n_exc n)
+  let modulo n = OSeq.cycle (zero_to_n_exc n)
 end

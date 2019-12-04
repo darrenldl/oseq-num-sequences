@@ -1,4 +1,4 @@
-SRCFILES = debug/*.ml* tests/*.ml* lib/*.ml*
+SRCFILES = src/*.ml*
 
 OCAMLFORMAT = ocamlformat \
 	--inplace \
